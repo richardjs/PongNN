@@ -1,8 +1,8 @@
 import Tkinter as tk 
 
-class Pong(object):
+class App(object):
 	def __init__(self, master):
-		master.title('PongNN v.1a')
+		master.title('AppNN v.1a')
 		master.resizable(0,0)
 
 		self.canvas = tk.Canvas(
@@ -12,6 +12,9 @@ class Pong(object):
 		)
 		self.canvas.grid()
 
+		self.canvas.create_rectangle(50, 50, 60, 100, fill='#633')
+		self.canvas.create_rectangle(300, 50, 310, 100, fill='#363')
+
 root = tk.Tk()
-pong = Pong(root)
+app = App(root)
 root.mainloop()
