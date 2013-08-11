@@ -4,7 +4,7 @@ class Player(object):
 	pass
 
 class Paddle(object):
-	LENGTH = 50
+	HEIGHT = 50
 	WIDTH = 10
 	MARGIN = 25
 	LEFT, RIGHT = range(2)
@@ -25,7 +25,8 @@ class Paddle(object):
 
 
 class Ball(object):
-	RADIUS = 5
+	WIDTH = 7 
+	HEIGHT = 7
 	SPEED_X = 1
 	SPEED_Y = 1
 
@@ -36,11 +37,17 @@ class Ball(object):
 		self.y = Game.FIELD_HEIGHT / 2
 
 		self.dx = Ball.SPEED_X
-		if random.randrage(2):
+		if random.randrange(2):
 			self.dx *= -1
 		self.dy = Ball.SPEED_Y
-		if random.randange(2):
+		if random.randrange(2):
 			self.dy *= -1
+	
+	def frame(self):
+		self.x += self.dx
+		self.y += self.dy 
+
+		#TODO: Paddle collision - here or in paddle frame?
 		
 
 class Game(object):
