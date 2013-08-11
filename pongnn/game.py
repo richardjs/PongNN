@@ -32,7 +32,7 @@ class Ball(object):
 	WIDTH = 7 
 	HEIGHT = 7
 	SPEED_X = 1 
-	SPEED_Y = 1
+	SPEED_Y = 1 
 
 	def __init__(self, game):
 		self.game = game
@@ -50,8 +50,30 @@ class Ball(object):
 	def frame(self):
 		self.x += self.dx
 		self.y += self.dy 
-		#TODO: Paddle collision - here or in paddle frame?
-		
+
+		left = self.x - Ball.WIDTH/2
+		right = self.x + Ball.WIDTH/2
+		top = self.y - Ball.HEIGHT/2
+		bottom = self.y + Ball.HEIGHT/2
+		half_paddle_width = Paddle.WIDTH/2
+
+		if (top < 0 or bottom > Game.FIELD_HEIGHT):
+			self.dy *= -1
+
+		check_paddle= None
+		if (left < Paddle.MARGIN + half_paddle_width and
+				left > Paddle.MARGIN):
+			check_paddle = self.game.paddles[Paddle.LEFT]
+		if (right > Game.FIELD_WIDTH - Paddle.MARGIN - half_paddle_width and
+				right < Game.FIELD_WIDTH - Paddle.MARGIN):
+			check_paddle = self.game.paddles[Paddle.RIGHT]
+
+		if check_paddle:
+			paddle_top = check_paddle.y - Paddle.HEIGHT/2
+			paddle_bottom = check_paddle.y + Paddle.HEIGHT/2
+
+			if top < paddle_bottom and bottom > paddle_top:
+				self.dx *= -1
 
 class Game(object):
 	FIELD_WIDTH = 500
