@@ -3,6 +3,7 @@ import random
 class Player(object):
 	pass
 
+
 class Paddle(object):
 	HEIGHT = 50
 	WIDTH = 10

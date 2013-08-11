@@ -20,12 +20,12 @@ class GameView(tk.Canvas):
 			*self.__get_rect(game.ball),
 			fill='#633', width=0
 		)
-
 	
 	def __get_rect(self, game_object):
 		left = game_object.x - (game_object.WIDTH / 2)
 		top = game_object.y - (game_object.HEIGHT / 2)
 		return (left, top, left+game_object.WIDTH, top+game_object.HEIGHT)
+
 
 class App(object):
 	def __init__(self, master):
