@@ -9,6 +9,9 @@ class GameView(tk.Canvas):
 			background='#003', highlightthickness=0
 		)
 		
+		self.master = master
+		self.game = game
+
 		self.paddles = [
 			self.create_rectangle(
 				*self.__get_rect(paddle),
@@ -20,7 +23,14 @@ class GameView(tk.Canvas):
 			*self.__get_rect(game.ball),
 			fill='#633', width=0
 		)
-	
+
+	def run(self, fps=60):
+		self.game.frame()
+		
+		self.coords(self.ball, self.__get_rect(self.game.ball))
+
+		self.master.after(1000 / fps, self.run)
+
 	def __get_rect(self, game_object):
 		left = game_object.x - (game_object.WIDTH / 2)
 		top = game_object.y - (game_object.HEIGHT / 2)
@@ -35,8 +45,6 @@ class App(object):
 		self.game = game.Game(game.Player(), game.Player())
 		self.gameView = GameView(master, self.game)
 		self.gameView.grid()
+
+		self.gameView.run()
 		
-		'''
-		self.canvas.create_rectangle(50, 50, 60, 100, fill='#633')
-		self.canvas.create_rectangle(300, 50, 310, 100, fill='#363')
-		'''

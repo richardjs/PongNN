@@ -24,11 +24,14 @@ class Paddle(object):
 			self.x = Game.FIELD_WIDTH - Paddle.MARGIN
 		self.y = Game.FIELD_HEIGHT / 2
 
+	def frame(self):
+		pass
+
 
 class Ball(object):
 	WIDTH = 7 
 	HEIGHT = 7
-	SPEED_X = 1
+	SPEED_X = 1 
 	SPEED_Y = 1
 
 	def __init__(self, game):
@@ -47,7 +50,6 @@ class Ball(object):
 	def frame(self):
 		self.x += self.dx
 		self.y += self.dy 
-
 		#TODO: Paddle collision - here or in paddle frame?
 		
 
@@ -64,5 +66,8 @@ class Game(object):
 		self.ball = Ball(self)
 	
 	def frame(self):
-		pass
+		for paddle in self.paddles:
+			paddle.frame()
+
+		self.ball.frame()
 
