@@ -1,13 +1,10 @@
 import random
 
-class Player(object):
-	pass
-
-
 class Paddle(object):
 	HEIGHT = 50
 	WIDTH = 10
 	MARGIN = 25
+	SPEED = 5
 	LEFT, RIGHT = range(2)
 
 	def __init__(self, game, player, side):
@@ -25,14 +22,27 @@ class Paddle(object):
 		self.y = Game.FIELD_HEIGHT / 2
 
 	def frame(self):
-		pass
+		move = self.player.get_move()
+		
+		if move == self.player.NO_MOVE:
+			return
+		elif move == self.player.MOVE_UP:
+			self.y -= Paddle.SPEED
+		else:
+			self.y += Paddle.SPEED
+		
+		half_height = Paddle.HEIGHT / 2
+		if self.y - half_height < 0:
+			self.y = half_height
+		elif self.y + half_height > Game.FIELD_HEIGHT:
+			self.y = Game.FIELD_HEIGHT - half_height
 
 
 class Ball(object):
 	WIDTH = 7 
 	HEIGHT = 7
 	SPEED_X = 1 
-	SPEED_Y = 1 
+	SPEED_Y = 1.5 
 
 	def __init__(self, game):
 		self.game = game

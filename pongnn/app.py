@@ -1,5 +1,6 @@
 import Tkinter as tk 
 import game
+import player
 
 class GameView(tk.Canvas):
 	def __init__(self, master, game):
@@ -27,6 +28,8 @@ class GameView(tk.Canvas):
 	def run(self, fps=60):
 		self.game.frame()
 		
+		for i in range(2):
+			self.coords(self.paddles[i], self.__get_rect(self.game.paddles[i]))
 		self.coords(self.ball, self.__get_rect(self.game.ball))
 
 		self.master.after(1000 / fps, self.run)
@@ -42,7 +45,10 @@ class App(object):
 		master.title('PongNN v.1a')
 		master.resizable(0,0)
 		
-		self.game = game.Game(game.Player(), game.Player())
+		self.game = game.Game(
+			player.HumanPlayer(self, master),
+			player.HumanPlayer(self, master, "'", '/')
+		)
 		self.gameView = GameView(master, self.game)
 		self.gameView.grid()
 
