@@ -5,13 +5,15 @@ class Paddle(object):
 	WIDTH = 10
 	MARGIN = 25
 	SPEED = 5
+
 	LEFT, RIGHT = range(2)
 
 	def __init__(self, game, player, side):
 		assert side in (Paddle.LEFT, Paddle.RIGHT)
 		
+		player.paddle = self
+		
 		self.game = game
-
 		self.player = player
 		self.side = side
 
@@ -70,6 +72,9 @@ class Ball(object):
 		if (top < 0 or bottom > Game.FIELD_HEIGHT):
 			self.dy *= -1
 
+		if (right < 0 or left > Game.FIELD_WIDTH):
+			self.game.ball_out()
+
 		check_paddle= None
 		if (left < Paddle.MARGIN + half_paddle_width and
 				left > Paddle.MARGIN):
@@ -90,11 +95,14 @@ class Game(object):
 	FIELD_HEIGHT = 300
 
 	def __init__(self, player1, player2):
+		player1.game = self
+		player2.game = self
+
 		self.paddles = (
 			Paddle(self, player1, Paddle.LEFT),
 			Paddle(self, player2, Paddle.RIGHT)
 		)
-		
+
 		self.ball = Ball(self)
 	
 	def frame(self):
@@ -102,4 +110,6 @@ class Game(object):
 			paddle.frame()
 
 		self.ball.frame()
-
+	
+	def ball_out(self):
+		self.ball = Ball(self)

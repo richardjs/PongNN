@@ -46,8 +46,8 @@ class App(object):
 		master.resizable(0,0)
 		
 		self.game = game.Game(
-			player.HumanPlayer(self, master),
-			player.HumanPlayer(self, master, "'", '/')
+			player.HumanPlayer(master),
+			player.PerfectAIPlayer()
 		)
 		self.gameView = GameView(master, self.game)
 		self.gameView.grid()
