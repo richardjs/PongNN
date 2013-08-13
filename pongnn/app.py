@@ -1,6 +1,8 @@
 import Tkinter as tk 
 import game
 import player
+import nn #TODO: temporary until we get the genetic algorithm up
+import random #Also temporary
 
 class GameView(tk.Canvas):
 	def __init__(self, master, game):
@@ -45,9 +47,15 @@ class App(object):
 		master.title('PongNN v.1a')
 		master.resizable(0,0)
 		
+		net = nn.NeuralNet((3, 4, 1))
+		weights = []
+		weights.append([[random.uniform(-1, 1) for _ in range(4)] for _ in range(4)])
+		weights.append([[random.uniform(-1, 1) for _ in range(5)]])
+		net.weights = weights
+
 		self.game = game.Game(
 			player.HumanPlayer(master),
-			player.PerfectAIPlayer()
+			player.NeuralPlayer(net)
 		)
 		self.gameView = GameView(master, self.game)
 		self.gameView.grid()
