@@ -19,8 +19,11 @@ class Neuron(object):
 		for i in range(len(self.inputs)):
 			total += self.inputs[i].activation * self.weights[i]
 		total += self.weights[-1]
-
-		return ( 2 / (1 + math.e**(-total)) ) - 1
+		
+		try:
+			return ( 2 / (1 + math.e**(-total)) ) - 1
+		except OverflowError:
+			return 0
 
 
 class InputNeuron(Neuron):
