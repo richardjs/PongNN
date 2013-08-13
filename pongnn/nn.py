@@ -1,9 +1,15 @@
 import math
+import random
 
 class Neuron(object):
 	def __init__(self, inputs, weights=None):
 		assert None in (inputs, weights) or len(inputs)+1 == len(weights)
 		self.inputs = inputs
+
+		if weights is None and inputs is not None:
+			weights = [
+				random.uniform(-1, 1) for _ in range(len(inputs)+1)
+			]
 		self.weights = weights
 	
 	@property
@@ -28,7 +34,7 @@ class InputNeuron(Neuron):
 
 
 class NeuralNet(object):
-	def __init__(self, shape):
+	def __init__(self, shape, weights=None):
 		assert len(shape) >= 2
 		self.layers = []
 		self.layers.append(
@@ -38,6 +44,9 @@ class NeuralNet(object):
 			self.layers.append(
 				[Neuron(self.layers[-1]) for _ in range(count)]
 			)
+
+		if weights is not None:
+			self.weights = weights
 
 	@property
 	def weights(self):

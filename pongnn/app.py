@@ -30,6 +30,9 @@ class GameView(tk.Canvas):
 	def run(self, fps=60):
 		self.game.frame()
 		
+		if self.game.ball is None:
+			self.game.new_ball()
+
 		for i in range(2):
 			self.coords(self.paddles[i], self.__get_rect(self.game.paddles[i]))
 		self.coords(self.ball, self.__get_rect(self.game.ball))
@@ -43,20 +46,11 @@ class GameView(tk.Canvas):
 
 
 class App(object):
-	def __init__(self, master):
+	def __init__(self, master, player1, player2):
 		master.title('PongNN v.1a')
 		master.resizable(0,0)
 		
-		net = nn.NeuralNet((3, 4, 1))
-		weights = []
-		weights.append([[random.uniform(-1, 1) for _ in range(4)] for _ in range(4)])
-		weights.append([[random.uniform(-1, 1) for _ in range(5)]])
-		net.weights = weights
-
-		self.game = game.Game(
-			player.HumanPlayer(master),
-			player.NeuralPlayer(net)
-		)
+		self.game = game.Game(player1, player2)
 		self.gameView = GameView(master, self.game)
 		self.gameView.grid()
 

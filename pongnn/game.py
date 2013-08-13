@@ -112,4 +112,13 @@ class Game(object):
 		self.ball.frame()
 	
 	def ball_out(self):
+		assert self.ball.x < 0 or self.ball.x > Game.FIELD_WIDTH
+		if self.ball.x < 0:
+			self.winner = self.paddles[Paddle.RIGHT].player
+		else:
+			self.winner = self.paddles[Paddle.LEFT].player
+
+		self.ball = None
+	
+	def new_ball(self):
 		self.ball = Ball(self)

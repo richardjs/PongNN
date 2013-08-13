@@ -1,6 +1,12 @@
 import Tkinter as tk
 import pongnn
+import pickle
 
 root = tk.Tk()
-app = pongnn.app.App(root)
+net = pickle.load(open('best.net'))
+app = pongnn.app.App(
+	root,
+	pongnn.player.HumanPlayer(root),
+	pongnn.player.NeuralPlayer(net)
+)
 root.mainloop()
