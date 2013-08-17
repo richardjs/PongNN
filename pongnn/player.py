@@ -36,7 +36,7 @@ class HumanPlayer(Player):
 		return Player.MOVE_DOWN
 
 class PerfectAIPlayer(Player):
-	#NOT perfect--Glen pointed out if you set the ball speed > paddle speed
+	#NOT perfect--Glen pointed out--if you set the ball speed > paddle speed
 	def get_move(self):
 		if self.paddle.y + self.paddle.HEIGHT/4 < self.game.ball.y:
 			return Player.MOVE_DOWN
@@ -50,8 +50,10 @@ class NeuralPlayer(Player):
 		self.net = net
 	
 	def get_move(self):
-		height = self.game.ball.y
-		distance = abs(self.paddle.x - self.game.ball.x)
+		#Move height and distance to a lower order of magnitude
+		height = self.game.ball.y / 100
+		distance = abs(self.paddle.x - self.game.ball.x) / 100
+
 		if self.game.ball.dx > 0:
 			if self.paddle == self.game.paddles[self.paddle.RIGHT]:
 				direction = 1

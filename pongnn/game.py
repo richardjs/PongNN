@@ -86,7 +86,6 @@ class Ball(object):
 						self.dx = - abs(self.dx)
 						self.x = paddle.x - Paddle.WIDTH/2 - Ball.WIDTH/2
 					self.bounces += 1
-					print self.bounces
 
 class Game(object):
 	FIELD_WIDTH = 500
