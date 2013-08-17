@@ -58,6 +58,8 @@ class Ball(object):
 		self.dy = Ball.SPEED_Y
 		if random.randrange(2):
 			self.dy *= -1
+
+		self.bounces = 0
 	
 	def frame(self):
 		self.x += self.dx
@@ -67,28 +69,24 @@ class Ball(object):
 		right = self.x + Ball.WIDTH/2
 		top = self.y - Ball.HEIGHT/2
 		bottom = self.y + Ball.HEIGHT/2
-		half_paddle_width = Paddle.WIDTH/2
 
 		if (top < 0 or bottom > Game.FIELD_HEIGHT):
 			self.dy *= -1
 
 		if (right < 0 or left > Game.FIELD_WIDTH):
 			self.game.ball_out()
-
-		check_paddle= None
-		if (left < Paddle.MARGIN + half_paddle_width and
-				left > Paddle.MARGIN):
-			check_paddle = self.game.paddles[Paddle.LEFT]
-		if (right > Game.FIELD_WIDTH - Paddle.MARGIN - half_paddle_width and
-				right < Game.FIELD_WIDTH - Paddle.MARGIN):
-			check_paddle = self.game.paddles[Paddle.RIGHT]
-
-		if check_paddle:
-			paddle_top = check_paddle.y - Paddle.HEIGHT/2
-			paddle_bottom = check_paddle.y + Paddle.HEIGHT/2
-
-			if top < paddle_bottom and bottom > paddle_top:
-				self.dx *= -1
+		
+		for paddle in self.game.paddles:
+			if abs(self.x - paddle.x) * 2 < Ball.WIDTH + Paddle.WIDTH:
+				if abs(self.y - paddle.y) * 2 < Ball.HEIGHT + Paddle.HEIGHT:
+					if paddle.side == Paddle.LEFT:
+						self.dx = abs(self.dx)
+						self.x = paddle.x + Paddle.WIDTH/2 + Ball.WIDTH/2
+					else:
+						self.dx = - abs(self.dx)
+						self.x = paddle.x - Paddle.WIDTH/2 - Ball.WIDTH/2
+					self.bounces += 1
+					print self.bounces
 
 class Game(object):
 	FIELD_WIDTH = 500
@@ -104,6 +102,7 @@ class Game(object):
 		)
 
 		self.ball = Ball(self)
+		self.last_ball = None
 	
 	def frame(self):
 		for paddle in self.paddles:
@@ -117,7 +116,8 @@ class Game(object):
 			self.winner = self.paddles[Paddle.RIGHT].player
 		else:
 			self.winner = self.paddles[Paddle.LEFT].player
-
+		
+		self.last_ball = self.ball
 		self.ball = None
 	
 	def new_ball(self):
