@@ -23,17 +23,17 @@ class Creature(object):
 			player.NeuralPlayer(self.net)
 		)
 		
-		while g.ball:
+		while g.ball and g.ball.bounces < 100:
 			g.frame()
 
 		self._score = g.last_ball.bounces
 		return self._score
 
 class Pool(object):
-	SIZE = 40
-	TOURNAMENT_SIZE = 5
+	SIZE = 80
+	TOURNAMENT_SIZE = 8 
 	CROSSOVER_RATE = .7
-	MUTATION_RATE = .001
+	MUTATION_RATE = .01
 
 	def __init__(self):
 		self.creatures = [
@@ -55,9 +55,6 @@ class Pool(object):
 				best = entrant
 				best_score = entrant.score
 				
-				if entrant.score > self.best_score:
-					self.best = entrant
-					self.best_score = entrant.score
 
 		return best
 	
@@ -94,7 +91,7 @@ class Pool(object):
 		if self.best is not None:
 			new_generation.append(self.best)
 
-		while len(new_generation) < 40:
+		while len(new_generation) < Pool.SIZE:
 			p1 = self.select()
 			p2 = self.select()
 
@@ -111,4 +108,9 @@ class Pool(object):
 		
 		self.creatures = new_generation
 		self.generation += 1
+
+		for creature in self.creatures:
+			if creature.score > self.best_score:
+				self.best = creature
+				self.best_score = creature.score
 

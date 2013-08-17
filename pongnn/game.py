@@ -52,12 +52,12 @@ class Ball(object):
 		self.x = Game.FIELD_WIDTH / 2
 		self.y = Game.FIELD_HEIGHT / 2
 
-		self.dx = Ball.SPEED_X
-		if random.randrange(2):
-			self.dx *= -1
+		self.dx = -Ball.SPEED_X
+		#if random.randrange(2):
+		#	self.dx *= -1
 		self.dy = Ball.SPEED_Y
-		if random.randrange(2):
-			self.dy *= -1
+		#if random.randrange(2):
+		#	self.dy *= -1
 
 		self.bounces = 0
 	

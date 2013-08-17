@@ -1,7 +1,6 @@
 import Tkinter as tk 
 import game
 import player
-import nn #TODO: temporary until we get the genetic algorithm up
 import random #Also temporary
 
 class GameView(tk.Canvas):
