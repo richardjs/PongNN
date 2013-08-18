@@ -3,7 +3,7 @@ import pickle
 
 pool = pongnn.genetic.Pool()
 try:
-	while True:
+	while pool.best_score < 100:
 		print 'Generation %d...' % pool.generation
 		pool.next_generation()
 		print 'Best score:\t%f'  % pool.best_score
@@ -15,4 +15,6 @@ try:
 		print 'Average score:\t%f' % avg  
 
 except KeyboardInterrupt:
-	pickle.dump(pool.best.net, open('best.net', 'w'))
+	pass
+
+pickle.dump(pool.best.net, open('best.net', 'w'))

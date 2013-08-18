@@ -31,14 +31,13 @@ class Creature(object):
 		else:
 			ball = g.ball
 
-
 		if ball.x < g.FIELD_WIDTH/2:
 			paddle = g.paddles[0]
 		else:
 			paddle = g.paddles[1]
 		dist = 1 - (1.0 * abs(ball.y - paddle.y) / g.FIELD_HEIGHT)
 
-		self._score = g.last_ball.bounces + dist
+		self._score = ball.bounces + dist
 		return self._score
 
 class Pool(object):

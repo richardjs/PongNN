@@ -30,6 +30,7 @@ class GameView(tk.Canvas):
 		self.game.frame()
 		
 		if self.game.ball is None:
+			print 'Last rally:', self.game.last_ball.bounces, 'bounces'
 			self.game.new_ball()
 
 		for i in range(2):
