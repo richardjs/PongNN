@@ -26,7 +26,11 @@ class Creature(object):
 		while g.ball and g.ball.bounces < 100:
 			g.frame()
 		
-		ball = g.last_ball
+		if g.last_ball is not None:
+			ball = g.last_ball
+		else:
+			ball = g.ball
+
 
 		if ball.x < g.FIELD_WIDTH/2:
 			paddle = g.paddles[0]
@@ -41,7 +45,7 @@ class Pool(object):
 	SIZE = 40 
 	TOURNAMENT_SIZE = 5 
 	CROSSOVER_RATE = .7
-	MUTATION_RATE = .1
+	MUTATION_RATE = .05
 
 	def __init__(self):
 		self.creatures = [
