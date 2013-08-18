@@ -51,7 +51,7 @@ class NeuralPlayer(Player):
 	
 	def get_move(self):
 		#Move height and distance to a lower order of magnitude
-		height = self.game.ball.y / 100.0
+		height = self.game.ball.y / 10.0
 		distance = abs(self.paddle.x - self.game.ball.x) / 100.0
 
 		if self.game.ball.dx > 0:

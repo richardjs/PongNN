@@ -3,7 +3,7 @@ import game
 import player
 import random
 
-SHAPE = (3, 5, 1)
+SHAPE = (3, 4, 1)
 
 class Creature(object):
 	def __init__(self, net=None):
@@ -25,15 +25,23 @@ class Creature(object):
 		
 		while g.ball and g.ball.bounces < 100:
 			g.frame()
+		
+		ball = g.last_ball
 
-		self._score = g.last_ball.bounces
+		if ball.x < g.FIELD_WIDTH/2:
+			paddle = g.paddles[0]
+		else:
+			paddle = g.paddles[1]
+		dist = 1 - (1.0 * abs(ball.y - paddle.y) / g.FIELD_HEIGHT)
+
+		self._score = g.last_ball.bounces + dist
 		return self._score
 
 class Pool(object):
-	SIZE = 80
-	TOURNAMENT_SIZE = 8 
+	SIZE = 40 
+	TOURNAMENT_SIZE = 5 
 	CROSSOVER_RATE = .7
-	MUTATION_RATE = .01
+	MUTATION_RATE = .1
 
 	def __init__(self):
 		self.creatures = [
@@ -54,7 +62,6 @@ class Pool(object):
 			if entrant.score > best_score:
 				best = entrant
 				best_score = entrant.score
-				
 
 		return best
 	
@@ -69,7 +76,7 @@ class Pool(object):
 			child_layer = []
 			for j in range(len(p1_layer)):
 				child_layer.append(
-					random.choice((p1_layer[j], p2_layer[j]))
+					list(random.choice((p1_layer[j], p2_layer[j])))
 				)
 			child_weights.append(child_layer)
 		

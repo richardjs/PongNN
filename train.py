@@ -6,7 +6,7 @@ try:
 	while True:
 		print 'Generation %d...' % pool.generation
 		pool.next_generation()
-		print 'Best score:\t%d'  % pool.best_score
+		print 'Best score:\t%f'  % pool.best_score
 
 		total = 0
 		for creature in pool.creatures:
